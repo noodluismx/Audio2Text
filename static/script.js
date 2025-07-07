@@ -18,17 +18,17 @@ function startRecording() {
                 formData.append("audio_data", audioBlob, "recorded.wav");
 
                 fetch("/transcribe", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.transcription) {
-                        document.getElementById("transcription").innerText = data.transcription;
-                    } else {
-                        document.getElementById("transcription").innerText = data.error;
-                    }
-                });
+    method: "POST",
+    body: formData
+})
+.then(response => response.json())
+.then(data => {
+    document.getElementById("transcription").innerText = data.transcription || data.error;
+})
+.catch(error => {
+    document.getElementById("transcription").innerText = "Error: " + error.message;
+});
+
 
                 audioChunks = [];
             };
